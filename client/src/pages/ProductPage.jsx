@@ -8,6 +8,7 @@ import useStore from '../store';
 import Rating from '../components/Rating';
 import Toast from '../components/Toast';
 import LoadingSpinner from '../components/LoadingSpinner';
+import ErrorComponent from '../components/ErrorComponent';
 
 export default function ProductPage() {
     const { productId } = useParams();
@@ -41,7 +42,7 @@ export default function ProductPage() {
     });
 
     if (isLoading) return <LoadingSpinner />;
-    if (isError) return <ErrorPage message={error.message} path="/product" />;
+    if (isError) return <ErrorComponent message={error.message} path="/product" />;
     return (
         <motion.div
             className="container mx-auto px-6 py-12 grid grid-cols-1 lg:grid-cols-2 gap-8"

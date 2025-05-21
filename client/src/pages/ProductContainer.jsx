@@ -91,7 +91,7 @@ export default function ProductContainer() {
                 initial="hidden"
                 animate="visible"
             >
-                {products.map((p) => (
+                {products && products.map((p) => (
                     <ProductCard key={p._id} product={p} />
                 ))}
             </motion.ul>

@@ -45,7 +45,8 @@ export default function CheckoutPage() {
     });
 
     if (orderMutation.isSuccess) return <OrderPlaced />;
-    if (orderMutation.isLoading) return <p className="text-center mt-10">Loading fashion picks...</p>;
+    if (orderMutation.isPending) return <LoadingSpinner />;
+    if (orderMutation.isError) return <ErrorComponent message={orderMutation.error.message} path="/cart" />;
 
     if (isLoading) return <LoadingSpinner />;
     if (isError) return <ErrorComponent message={error.message} path="/cart" />;
