@@ -33,9 +33,11 @@ export default function ProductContainer() {
     // Sync category from URL
     useEffect(() => {
         const cat = searchParams.get('category') || 'all';
+        const pageFromParams = parseInt(searchParams.get('page')) || 1;
         setCategory(cat);
-        setPage(1);
+        setPage(pageFromParams);
     }, [searchParams]);
+
 
     const { data, isLoading, isError, error, isPreviousData } = useQuery({
         queryKey: ['products', page, category],
@@ -55,8 +57,9 @@ export default function ProductContainer() {
 
     const handleCategoryChange = (e) => {
         const cat = e.target.value;
-        setSearchParams({ category: cat });
+        setSearchParams({ category: cat, page: '1' }); // reset to first page
     };
+
 
     return (
         <div className="w-auto mx-2 px-6 py-10">
@@ -97,7 +100,11 @@ export default function ProductContainer() {
             </motion.ul>
             <div className="flex justify-center items-center mt-10 space-x-4">
                 <button
-                    onClick={() => setPage(old => Math.max(old - 1, 1))}
+                    onClick={() => {
+                        const newPage = Math.max(page - 1, 1);
+                        setSearchParams({ category, page: newPage.toString() });
+                    }}
+
                     disabled={page === 1}
                     className={clsx(
                         "flex items-center px-4 py-2 font-medium rounded-lg transition",
@@ -116,8 +123,12 @@ export default function ProductContainer() {
 
                 <button
                     onClick={() => {
-                        if (page < pages) setPage(old => old + 1);
+                        if (page < pages) {
+                            const newPage = page + 1;
+                            setSearchParams({ category, page: newPage.toString() });
+                        }
                     }}
+
                     disabled={page === pages || isPreviousData}
                     className={clsx(
                         "flex items-center px-4 py-2 font-medium rounded-lg transition",

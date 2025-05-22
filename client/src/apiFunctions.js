@@ -32,7 +32,9 @@ export const getProducts = async (page = 1, limit = 12, category) => {
 };
 
 export const getProductById = async (id) => {
-  const { data } = await axios.get(`https://trndy.onrender.com/${id}`);
+  const { data } = await axios.get(
+    `${import.meta.env.VITE_PRODUCT_URL}/products/${id}`
+  );
   return data;
 };
 
